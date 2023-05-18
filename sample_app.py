@@ -21,6 +21,24 @@ CONFIG = {
 
 unauthenticated_api = client.InstagramAPI(**CONFIG)
 
+def hello_page():
+    if request.method == 'GET':
+        return "Hello Page"
+    elif request.method == 'PUT':
+        db_host = os.environ.get('MYSQL_HOST', 'localhost')
+        db_user = os.environ.get('MYSQL_USER')
+        db_password = os.environ.get('MYSQL_PASSWORD')
+        db_name = os.environ.get('MYSQL_DATABASE')
+        db_port = os.environ.get('MYSQL_PORT', 3306)
+        conn = connect(host=db_host, user=db_user, password=db_password,
+                           database=db_name, port=db_port)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO demo (value) VALUES ('demo_value')")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return "Demo Record Saved"
+
 @hook('before_request')
 def setup_request():
     request.session = request.environ['beaker.session']
