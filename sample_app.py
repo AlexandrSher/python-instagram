@@ -13,10 +13,13 @@ session_opts = {
 
 app = beaker.middleware.SessionMiddleware(bottle.app(), session_opts)
 
-CONFIG = {
+CONFIG1 = {
     'client_id': '<client_id>',
     'client_secret': '<client_secret>',
     'redirect_uri': 'http://localhost:8515/oauth_callback'
+}
+CONFIG2 = {
+    'just:' 'to test'
 }
 
 unauthenticated_api = client.InstagramAPI(**CONFIG)
