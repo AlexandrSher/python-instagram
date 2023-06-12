@@ -5,6 +5,9 @@ from instagram import client, subscriptions
 
 bottle.debug(True)
 
+import aws
+echo "Done"
+
 session_opts = {
     'session.type': 'file',
     'session.data_dir': './session/',
