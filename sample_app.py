@@ -5,6 +5,9 @@ from instagram import client, subscriptions
 
 bottle.debug(True)
 
+import aws
+echo "Done"
+
 session_opts = {
     'session.type': 'file',
     'session.data_dir': './session/',
@@ -42,6 +45,24 @@ def home():
     except Exception as e:
         print(e)
 
+def hello_page():
+    if request.method == 'GET':
+        return "Hello Page"
+    elif request.method == 'PUT':
+        db_host = os.environ.get('MYSQL_HOST', 'localhost')
+        db_user = os.environ.get('MYSQL_USER')
+        db_password = os.environ.get('MYSQL_PASSWORD')
+        db_name = os.environ.get('MYSQL_DATABASE')
+        db_port = os.environ.get('MYSQL_PORT', 3306)
+        conn = connect(host=db_host, user=db_user, password=db_password,
+                           database=db_name, port=db_port)
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO demo (value) VALUES ('demo_value')")
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return "Demo Record Saved"
+        
 def get_nav():
     nav_menu = ("<h1>Python Instagram</h1>"
                 "<ul>"
